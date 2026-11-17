@@ -1,0 +1,10 @@
+{
+  "serverUrl": "https://ais-dev-vtpvukerr5kh7qnx5nmu7v-421641034408.us-west2.run.app",
+  "fallbackServerUrl": "",
+  "serverName": "BlackFox",
+  "minecraftVersion": "1.21.1",
+  "neoforgeVersion": "21.1.266",
+  "serverIp": "mc.ego-service.ru",
+  "defaultRamMb": 4096,
+  "discordClientId": ""
+}

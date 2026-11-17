@@ -1,0 +1,57 @@
+{
+  "name": "blackfox-launcher",
+  "version": "2.0.0",
+  "description": "BlackFox Launcher for Windows 10/11 (Minecraft 1.21.1 NeoForge)",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win --x64 --publish never"
+  },
+  "build": {
+    "appId": "ru.blackfox.launcher",
+    "productName": "BlackFox Launcher",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "config.json",
+      "bundle/**/*",
+      "assets/**/*"
+    ],
+    "win": {
+      "signAndEditExecutable": false,
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "portable": {
+      "artifactName": "BlackFox-Launcher-Portable.exe"
+    },
+    "nsis": {
+      "artifactName": "BlackFox-Launcher-Setup.exe",
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  },
+  "dependencies": {
+    "adm-zip": "^0.6.1"
+  },
+  "devDependencies": {
+    "electron": "^45.3.2",
+    "electron-builder": "^26.18.0"
+  }
+}

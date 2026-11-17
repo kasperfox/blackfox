@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BlackFox Launcher</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="window-shell">
+    <header class="titlebar">
+      <div class="titlebar-brand">
+        <img id="brand-icon-img" alt="BlackFox" class="brand-icon" />
+        <span class="brand-name">BlackFox</span>
+        <span id="launcher-version-label" class="version-label"></span>
+      </div>
+      <div class="titlebar-controls">
+        <button id="btn-min" title="Свернуть">—</button>
+        <button id="btn-close" title="Закрыть">✕</button>
+      </div>
+    </header>
+
+    <div class="workspace">
+      <aside class="sidebar">
+        <div class="profile-box">
+          <label for="nickname-input">Никнейм (без лицензии)</label>
+          <input id="nickname-input" type="text" maxlength="16" placeholder="FoxPlayer" />
+          <div class="ram-row">
+            <label for="ram-select">ОЗУ (RAM)</label>
+            <select id="ram-select">
+              <option value="2048">2048 МБ</option>
+              <option value="4096">4096 МБ</option>
+              <option value="6144">6144 МБ</option>
+              <option value="8192">8192 МБ</option>
+              <option value="12288">12288 МБ</option>
+            </select>
+          </div>
+          <label class="vanilla-check">
+            <input id="vanilla-mode-checkbox" type="checkbox" />
+            <span>Тест без модов (Vanilla)</span>
+          </label>
+          <label class="vanilla-check" title="Отключает аппаратное ускорение и песочницу Chromium (если лаунчер вылетает с ошибкой Crashpad)">
+            <input id="safe-graphics-checkbox" type="checkbox" />
+            <span>Безопасный режим графики</span>
+          </label>
+          <label class="vanilla-check" title="Показывать статус игры и сборки в профиле Discord (Rich Presence)">
+            <input id="discord-rpc-checkbox" type="checkbox" />
+            <span>Статус в Discord (Rich Presence)</span>
+          </label>
+          <div class="ram-row">
+            <label for="server-url-input">URL сервера обновлений</label>
+            <div class="url-row">
+              <input id="server-url-input" type="text" placeholder="https://..." />
+              <button id="btn-save-url" type="button" class="mini-btn" title="Применить URL">OK</button>
+            </div>
+          </div>
+        </div>
+
+        <nav class="side-nav">
+          <button class="nav-btn active" data-tab="play">Главная</button>
+          <button class="nav-btn" data-tab="mods">Список модов</button>
+          <button class="nav-btn" data-tab="logs">Консоль и диагностика</button>
+        </nav>
+
+        <div class="side-footer">
+          <button id="btn-clear-cache" class="secondary-btn">Очистить кэш NeoForge</button>
+          <button id="btn-open-folder" class="secondary-btn">Папка игры</button>
+        </div>
+      </aside>
+
+      <main class="main-panel">
+        <section id="tab-play" class="tab-content active">
+          <div id="self-update-banner" class="self-update-banner hidden">
+            <span id="self-update-text">Доступно обновление лаунчера</span>
+            <button id="btn-apply-self-update" class="mini-btn accent">Обновить лаунчер</button>
+          </div>
+
+          <div class="hero-card">
+            <img id="hero-banner-img" alt="BlackFox" class="hero-img" />
+            <div class="hero-overlay">
+              <div class="hero-kicker">MINECRAFT 1.21.1 · NEOFORGE · CREATE</div>
+              <h1>BlackFox</h1>
+              <p id="server-subtitle">Сервер с модом Create и автоматической синхронизацией сборки.</p>
+            </div>
+          </div>
+
+          <div class="play-dock">
+            <div class="status-panel">
+              <div id="status-title" class="status-title">Проверка обновлений...</div>
+              <div id="status-detail" class="status-detail">Подключение к серверу BlackFox</div>
+              <div id="progress-wrap" class="progress-wrap hidden">
+                <div id="progress-bar" class="progress-bar"></div>
+              </div>
+            </div>
+
+            <div class="action-buttons">
+              <button id="btn-check-home" class="secondary-btn" title="Проверить обновления на сервере">Проверить</button>
+              <button id="btn-update" class="mc-update-btn hidden">ОБНОВИТЬ</button>
+              <button id="btn-play" class="mc-play-btn" disabled>ИГРАТЬ</button>
+            </div>
+          </div>
+        </section>
+
+        <section id="tab-mods" class="tab-content">
+          <div class="panel-header">
+            <h2>Файлы сборки на сервере</h2>
+            <button id="btn-recheck" class="secondary-btn">Проверить снова</button>
+          </div>
+          <div id="mods-list" class="mods-list">Загрузка списка...</div>
+        </section>
+
+        <section id="tab-logs" class="tab-content">
+          <div class="panel-header">
+            <h2>Журнал запуска</h2>
+            <button id="btn-show-diag" class="secondary-btn">Показать crash-диагностику</button>
+          </div>
+          <pre id="console-output" class="console-output">Готов к работе.
+</pre>
+        </section>
+      </main>
+    </div>
+  </div>
+  <script src="./renderer.js"></script>
+</body>
+</html>
