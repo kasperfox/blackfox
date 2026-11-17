@@ -1,0 +1,58 @@
+name: Build BlackFox Launcher (.exe)
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - master
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Read package version
+        id: pkg
+        shell: pwsh
+        run: |
+          $pkg = Get-Content package.json -Raw | ConvertFrom-Json
+          echo "version=$($pkg.version)" >> $env:GITHUB_OUTPUT
+
+      - name: Build portable and installer .exe
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+        run: npm run dist
+
+      - name: Upload workflow artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: BlackFox-Launcher-Windows-EXE
+          path: |
+            dist/BlackFox-Launcher-Portable.exe
+            dist/BlackFox-Launcher-Setup.exe
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ startsWith(github.ref, 'refs/tags/v') && github.ref_name || format('v{0}-{1}', steps.pkg.outputs.version, github.run_number) }}
+          name: BlackFox Launcher v${{ steps.pkg.outputs.version }}
+          make_latest: true
+          files: |
+            dist/BlackFox-Launcher-Portable.exe
+            dist/BlackFox-Launcher-Setup.exe
